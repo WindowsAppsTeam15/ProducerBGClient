@@ -1,12 +1,15 @@
 package team15.producerbgclient;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,10 +26,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducersActivity extends AppCompatActivity {
+public class ProducersActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private  List<Producer> producers;
     private  ProducerAdapter adapter;
-    ListView listView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,14 @@ public class ProducersActivity extends AppCompatActivity {
         new GetProducersTask().execute();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(ProducersActivity.this, ProducerDetailsActivity.class);
+        Producer currentProducer = adapter.getItem(position);
+        intent.putExtra("ProducerId", currentProducer.getId());
+        startActivity(intent);
+    }
+
     private class GetProducersTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
@@ -58,9 +69,10 @@ public class ProducersActivity extends AppCompatActivity {
             adapter = new ProducerAdapter(ProducersActivity.this, R.layout.list_item, producers);
             listView = (ListView)findViewById(R.id.listView);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(ProducersActivity.this);
         }
 
-        private  void ParseJsonData(String producersStr) {
+        private void ParseJsonData(String producersStr) {
             JSONArray json = null;
             try {
                 json = new JSONArray(producersStr);
@@ -76,19 +88,39 @@ public class ProducersActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                String id = null;
+                try {
+                    id = producerJson.getString("_id");
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 String name = null;
                 try {
                     name = producerJson.getString("name");
-                } catch (JSONException e) {
+                }
+                catch (JSONException e) {
                     e.printStackTrace();
                 }
                 String type = null;
                 try {
                     type = producerJson.getString("type");
-                } catch (JSONException e) {
+                }
+                catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Producer producer = new Producer(name, type);
+                String description = null;
+                try {
+                    description = producerJson.getString("description");
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Producer producer = new Producer();
+                producer.setId(id);
+                producer.setName(name);
+                producer.setType(type);
+                producer.setDescription(description);
                 producers.add(producer);
             }
         }
