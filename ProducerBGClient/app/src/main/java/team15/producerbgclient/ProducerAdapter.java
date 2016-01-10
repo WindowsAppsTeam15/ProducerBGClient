@@ -29,8 +29,8 @@ public class ProducerAdapter extends ArrayAdapter<Producer> {
         Producer producer = getItem(position);
 
         if (producer != null) {
-            TextView name = (TextView) v.findViewById(R.id.name);
-            TextView type = (TextView) v.findViewById(R.id.type);
+            TextView name = (TextView) v.findViewById(R.id.tv_producer_name);
+            TextView type = (TextView) v.findViewById(R.id.tv_producer_type);
 
             if (name != null){
                 name.setText(producer.getName());
