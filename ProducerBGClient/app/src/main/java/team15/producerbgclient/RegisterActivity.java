@@ -40,5 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
         public int getCount() {
             return 2;
         }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0: return "Log in";
+                case 1: return "Register";
+                default: return null;
+            }
+        }
     }
 }
