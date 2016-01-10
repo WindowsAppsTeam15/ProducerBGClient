@@ -1,6 +1,7 @@
 package team15.producerbgclient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     EditText confirmPass;
     EditText email;
     Button sumbitBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
