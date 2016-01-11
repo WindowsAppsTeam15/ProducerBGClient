@@ -6,7 +6,7 @@
     android:id="@+id/registerPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team15.producerbgclient.RegisterActivity"
+    tools:context=".RegisterLoginActivity"
     android:weightSum="1">
 
     <android.support.v4.view.PagerTitleStrip

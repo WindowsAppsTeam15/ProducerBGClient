@@ -6,7 +6,7 @@
     tools:context="team15.producerbgclient.ProducersActivity">
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/lv_producers"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         />

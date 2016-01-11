@@ -15,32 +15,32 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/titleRegisterForm"
+            android:id="@+id/tv_title_register_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="Register with us"
+            android:text="@string/register_form_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
-            android:id="@+id/usernameWrapper"
+            android:id="@+id/ll_username_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/lableUsername"
+                android:id="@+id/tv_username_label"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="@string/username"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
-                android:id="@+id/usernameInput"
+                android:id="@+id/ed_username_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Username"
+                android:hint="@string/username"
                 android:imeOptions="flagNoExtractUi"
                 android:inputType="textWebEditText"
                 android:singleLine="true" />
@@ -48,84 +48,84 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/passwordWrapper"
+            android:id="@+id/ll_password_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/lablePass"
+                android:id="@+id/tv_password_label"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/password"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
-                android:id="@+id/passwordInput"
+                android:id="@+id/ed_password_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:singleLine="true" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/repeatePassWrapper"
+            android:id="@+id/ll_confirm_password_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/lableRepeatePass"
+                android:id="@+id/tv_confirm_password_label"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Confirm pass"
+                android:text="@string/confirm_password"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
-                android:id="@+id/confirmPassInput"
+                android:id="@+id/ed_confirm_password_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Confirm Password"
+                android:hint="@string/confirm_password_placeholder"
                 android:inputType="textPassword"
                 android:singleLine="true" />
         </LinearLayout>
 
 
         <LinearLayout
-            android:id="@+id/emailWrapper"
+            android:id="@+id/ll_email_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/lableEmail"
+                android:id="@+id/tv_email_label"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="@string/email"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
-                android:id="@+id/emailInput"
+                android:id="@+id/ed_email_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:singleLine="true" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/submitButton"
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register" />
+            android:text="@string/register" />
 
     </LinearLayout>
 

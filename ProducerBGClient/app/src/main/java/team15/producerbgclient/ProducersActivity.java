@@ -67,7 +67,7 @@ public class ProducersActivity extends AppCompatActivity implements AdapterView.
             ParseJsonData(producersStr);
 
             adapter = new ProducerAdapter(ProducersActivity.this, R.layout.list_item, producers);
-            listView = (ListView)findViewById(R.id.listView);
+            listView = (ListView)findViewById(R.id.lv_producers);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(ProducersActivity.this);
         }

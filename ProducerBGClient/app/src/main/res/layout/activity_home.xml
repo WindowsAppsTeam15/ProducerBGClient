@@ -16,18 +16,17 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    >
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
-        android:id="@+id/welcomeHeading"
+        android:id="@+id/tv_welcome_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Welcome to ProducerBG!"
         android:textSize="30dp"/>
 
     <TextView
-        android:id="@+id/welcomeDescription"
+        android:id="@+id/tv_welcome_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -35,21 +34,21 @@
         android:textSize="16dp"/>
 
     <Button
-        android:id="@+id/goToAllProducersButton"
+        android:id="@+id/btn_all_producers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:layout_gravity="center_horizontal"
         android:minWidth="170dp"
-        android:text="See all producers"/>
+        android:text="@string/all_producers"/>
 
     <Button
-        android:id="@+id/goToRegisterButton"
+        android:id="@+id/btn_go_to_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:minWidth="170dp"
-        android:text="Register"/>
+        android:text="@string/register"/>
 
 </LinearLayout>
 

@@ -39,7 +39,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_description"
+                android:id="@+id/tv_description_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -49,7 +49,7 @@
                 android:alpha="0.8"
                 android:textColor="#ff272727"
                 android:textSize="15dp"
-                android:text="Description: "
+                android:text="@string/description"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -65,12 +65,12 @@
                 android:textColor="#ff272727"
                 android:textSize="15dp"
                 android:text="Test Test Test Test Test"
-                android:layout_below="@+id/tv_description"
+                android:layout_below="@id/tv_description_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"/>
 
             <TextView
-                android:id="@+id/tv_type"
+                android:id="@+id/tv_type_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -80,7 +80,7 @@
                 android:alpha="0.8"
                 android:textColor="#ff272727"
                 android:textSize="15dp"
-                android:text="Type: "
+                android:text="@string/type"
                 android:layout_below="@+id/tv_producer_details_description"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -98,8 +98,8 @@
                 android:textColor="#ff272727"
                 android:textSize="15dp"
                 android:layout_below="@+id/tv_producer_details_description"
-                android:layout_toRightOf="@+id/tv_type"
-                android:layout_toEndOf="@+id/tv_type"
+                android:layout_toRightOf="@id/tv_type_label"
+                android:layout_toEndOf="@id/tv_type_label"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"/>
 
@@ -114,7 +114,7 @@
                 android:alpha="0.8"
                 android:textColor="#ff272727"
                 android:textSize="15dp"
-                android:text="Main products:"
+                android:text="@string/main_products"
                 android:layout_marginTop="8dp"
                 android:layout_below="@id/tv_producer_details_type"
                 android:layout_alignParentLeft="true"
@@ -128,7 +128,7 @@
             </ListView>
 
             <TextView
-                android:id="@+id/tv_email"
+                android:id="@+id/tv_email_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -138,7 +138,7 @@
                 android:alpha="0.8"
                 android:textColor="#ff272727"
                 android:textSize="15dp"
-                android:text="Email: "
+                android:text="@string/email"
                 android:layout_below="@+id/lv_main_products"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"/>
@@ -156,13 +156,13 @@
                 android:textColor="#ff272727"
                 android:textSize="15dp"
                 android:layout_below="@+id/lv_main_products"
-                android:layout_toRightOf="@+id/tv_email"
-                android:layout_toEndOf="@+id/tv_email"
+                android:layout_toRightOf="@id/tv_email_label"
+                android:layout_toEndOf="@id/tv_email_label"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"/>
 
             <TextView
-                android:id="@+id/tv_phone"
+                android:id="@+id/tv_phone_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -172,8 +172,8 @@
                 android:alpha="0.8"
                 android:textColor="#ff272727"
                 android:textSize="15dp"
-                android:text="Phone: "
-                android:layout_below="@+id/tv_email"
+                android:text="@string/phone"
+                android:layout_below="@id/tv_email_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"/>
 
@@ -189,9 +189,9 @@
                 android:alpha="0.8"
                 android:textColor="#ff272727"
                 android:textSize="15dp"
-                android:layout_below="@+id/tv_email"
-                android:layout_toRightOf="@+id/tv_phone"
-                android:layout_toEndOf="@+id/tv_phone"
+                android:layout_below="@id/tv_email_label"
+                android:layout_toRightOf="@id/tv_phone_label"
+                android:layout_toEndOf="@id/tv_phone_label"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"/>
 

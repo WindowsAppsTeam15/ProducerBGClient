@@ -10,12 +10,12 @@ import android.os.Bundle;
 import team15.producerbgclient.registerLogFragments.LoginFragment;
 import team15.producerbgclient.registerLogFragments.RegisterFragment;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterLoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_login);
 
         ViewPager currentViewPager = (ViewPager) findViewById(R.id.registerPager);
         RegisterAdapter adapter = new RegisterAdapter(getSupportFragmentManager());

@@ -1,13 +1,11 @@
 package team15.producerbgclient.registerLogFragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,16 +18,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import team15.producerbgclient.R;
 import team15.producerbgclient.User;
@@ -44,10 +37,10 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        title = (TextView) rootView.findViewById(R.id.titleLogForm);
-        usernameInput = (EditText) rootView.findViewById(R.id.usernameInput);
-        passwordInput = (EditText) rootView.findViewById(R.id.passwordInput);
-        logBtn = (Button) rootView.findViewById(R.id.logBtn);
+        title = (TextView) rootView.findViewById(R.id.tv_title_log_form);
+        usernameInput = (EditText) rootView.findViewById(R.id.ed_username_input);
+        passwordInput = (EditText) rootView.findViewById(R.id.ed_password_input);
+        logBtn = (Button) rootView.findViewById(R.id.btn_login);
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

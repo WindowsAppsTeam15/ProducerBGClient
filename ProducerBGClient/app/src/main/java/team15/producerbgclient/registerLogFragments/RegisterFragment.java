@@ -1,6 +1,5 @@
 package team15.producerbgclient.registerLogFragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,9 +17,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -47,13 +43,13 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
 
-        title = (TextView) rootView.findViewById(R.id.titleRegisterForm);
-        usernameInput = (EditText) rootView.findViewById(R.id.usernameInput);
-        passwordInput = (EditText) rootView.findViewById(R.id.passwordInput);
-        confirmPassInput = (EditText) rootView.findViewById(R.id.confirmPassInput);
-        emailInput = (EditText) rootView.findViewById(R.id.emailInput);
+        title = (TextView) rootView.findViewById(R.id.tv_title_register_form);
+        usernameInput = (EditText) rootView.findViewById(R.id.ed_username_input);
+        passwordInput = (EditText) rootView.findViewById(R.id.ed_password_input);
+        confirmPassInput = (EditText) rootView.findViewById(R.id.ed_confirm_password_input);
+        emailInput = (EditText) rootView.findViewById(R.id.ed_email_input);
 
-        sumbitBtn = (Button) rootView.findViewById(R.id.submitButton);
+        sumbitBtn = (Button) rootView.findViewById(R.id.btn_register);
         sumbitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
