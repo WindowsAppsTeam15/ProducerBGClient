@@ -88,6 +88,42 @@ public class ProducersActivity extends AppCompatActivity implements AdapterView.
                     e.printStackTrace();
                 }
 
+                Producer producer = new Producer();
+                JSONObject image = null;
+                try {
+                    image = producerJson.getJSONObject("img");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONObject data = null;
+                if (image != null) {
+                    try {
+                        data = image.getJSONObject("data");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                JSONArray dataArr = null;
+                if (data != null) {
+                    try {
+                        dataArr = data.getJSONArray("data");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                byte[] imgByteArr = null;
+                if (dataArr != null) {
+                    imgByteArr = new byte[dataArr.length()];
+                    for (int j = 0; j < dataArr.length(); j++) {
+                        try {
+                            imgByteArr[j] = (byte) dataArr.getInt(j);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    producer.setLogo(imgByteArr);
+                }
+
                 String id = null;
                 try {
                     id = producerJson.getString("_id");
@@ -95,6 +131,8 @@ public class ProducersActivity extends AppCompatActivity implements AdapterView.
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
+                producer.setId(id);
+
                 String name = null;
                 try {
                     name = producerJson.getString("name");
@@ -102,6 +140,8 @@ public class ProducersActivity extends AppCompatActivity implements AdapterView.
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
+                producer.setName(name);
+
                 String type = null;
                 try {
                     type = producerJson.getString("type");
@@ -109,6 +149,8 @@ public class ProducersActivity extends AppCompatActivity implements AdapterView.
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
+                producer.setType(type);
+
                 String description = null;
                 try {
                     description = producerJson.getString("description");
@@ -116,10 +158,6 @@ public class ProducersActivity extends AppCompatActivity implements AdapterView.
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Producer producer = new Producer();
-                producer.setId(id);
-                producer.setName(name);
-                producer.setType(type);
                 producer.setDescription(description);
                 producers.add(producer);
             }
