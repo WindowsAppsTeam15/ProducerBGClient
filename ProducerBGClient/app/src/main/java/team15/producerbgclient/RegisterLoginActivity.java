@@ -10,7 +10,7 @@ import android.os.Bundle;
 import team15.producerbgclient.registerLogFragments.LoginFragment;
 import team15.producerbgclient.registerLogFragments.RegisterFragment;
 
-public class RegisterLoginActivity extends AppCompatActivity {
+public class RegisterLoginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

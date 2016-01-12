@@ -1,35 +1,29 @@
 package team15.producerbgclient;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.*;
-import android.graphics.*;
-import android.content.*;
-import android.view.*;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
 
         Button goToRegisterButton = (Button) findViewById(R.id.btn_go_to_register);
         goToRegisterButton.setOnClickListener(this);
         Button goToAllProducersButton = (Button) findViewById(R.id.btn_all_producers);
         goToAllProducersButton.setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override

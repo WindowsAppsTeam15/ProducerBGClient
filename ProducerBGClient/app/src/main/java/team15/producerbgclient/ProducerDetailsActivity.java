@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducerDetailsActivity extends AppCompatActivity {
+public class ProducerDetailsActivity extends BaseActivity {
     private String id;
     private TextView name;
     private TextView type;

@@ -1,6 +1,8 @@
 package team15.producerbgclient.registerLogFragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import team15.producerbgclient.HomeActivity;
 import team15.producerbgclient.R;
 import team15.producerbgclient.User;
 
@@ -53,6 +57,12 @@ public class RegisterFragment extends Fragment {
         sumbitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View view = getActivity().getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 String usernameString = usernameInput.getText().toString().trim();
                 String passString = passwordInput.getText().toString().trim();
                 String confirmPassString = confirmPassInput.getText().toString().trim();
@@ -144,16 +154,7 @@ public class RegisterFragment extends Fragment {
                     sb.append((char) numberOfChars);
                 }
 
-                Gson gson = new Gson();
-                User returnedUser = null;
-
-                try {
-                    returnedUser = gson.fromJson(sb.toString(), User.class);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return returnedUser.getUsername();
+                return sb.toString();
             } finally {
                 if (is != null) {
                     is.close();
@@ -163,7 +164,32 @@ public class RegisterFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            title.setText(result);
+            if (result == null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Unable to connect!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Gson gson = new Gson();
+            User returnedUser = null;
+
+            try {
+                returnedUser = gson.fromJson(result, User.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+
+            returnedUser.getUsername();
+
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("username", returnedUser.getUsername());
+            editor.putString("token", returnedUser.getToken());
+
+            Toast.makeText(getActivity().getApplicationContext(), returnedUser.getUsername() + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            startActivity(intent);
+            return;
         }
     }
 }

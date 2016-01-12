@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducersActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ProducersActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     private  List<Producer> producers;
     private  ProducerAdapter adapter;
     private ListView listView;
