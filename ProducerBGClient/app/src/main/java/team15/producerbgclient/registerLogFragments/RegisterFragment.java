@@ -181,7 +181,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             String username = returnedUser.getUsername();
             String token = returnedUser.getToken();
 
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("producerbg", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("username", username);
             editor.putString("token", token);

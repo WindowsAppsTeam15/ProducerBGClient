@@ -163,18 +163,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            returnedUser.getUsername();
+            String username = returnedUser.getUsername();
+            String token = returnedUser.getToken();
 
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("producerbg", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("username", returnedUser.getUsername());
-            editor.putString("token", returnedUser.getToken());
+            editor.putString("username", username);
+            editor.putString("token", token);
 
-            Toast.makeText(getActivity().getApplicationContext(), returnedUser.getUsername() + " sucsessfully logged!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), username + " sucsessfully logged!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
-
             return;
         }
     }
