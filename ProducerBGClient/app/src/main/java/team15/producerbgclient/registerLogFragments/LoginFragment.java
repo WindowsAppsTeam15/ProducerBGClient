@@ -115,65 +115,51 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 return logUser(params[0]);
             } catch (Exception e) {
                 String errMessage = e.getMessage();
-                Log.e("connection error", errMessage);
-                return null;
+                return errMessage;
             }
         }
 
         private String logUser(String userToLog) throws IOException {
-            HttpURLConnection urlConnection = null;
-            InputStream is = null;
+            URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/users/token");
+            HttpURLConnection urlConnection = (HttpURLConnection) baseUrl.openConnection();
 
-            try {
-                URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/users/token");
-                urlConnection = (HttpURLConnection) baseUrl.openConnection();
-                urlConnection.setReadTimeout(10000 /* milliseconds */);
-                urlConnection.setConnectTimeout(15000 /* milliseconds */);
-                urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
 
-                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
-                out.write(userToLog.toString());
-                out.close();
+            OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+            out.write(userToLog.toString());
+            out.close();
 
-                urlConnection.connect();
+            urlConnection.connect();
 
-                int responseCode = urlConnection.getResponseCode();
-                if (responseCode > 201) {
-                    return urlConnection.getResponseMessage();
-                }
-
-                is = urlConnection.getInputStream();
-                int numberOfChars;
-                StringBuffer sb = new StringBuffer();
-                while ((numberOfChars = is.read()) != -1) {
-                    sb.append((char) numberOfChars);
-                }
-
-                return sb.toString();
-
-            } finally {
-                if (is != null) {
-                    is.close();
-                }
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode > 201) {
+                return urlConnection.getResponseMessage();
             }
+
+            InputStream is = urlConnection.getInputStream();
+            int numberOfChars;
+            StringBuffer sb = new StringBuffer();
+            while ((numberOfChars = is.read()) != -1) {
+                sb.append((char) numberOfChars);
+            }
+
+            return sb.toString();
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (result == null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Unable to connect!", Toast.LENGTH_SHORT).show();
-                return;
-            }
             Gson gson = new Gson();
             User returnedUser = null;
 
             try {
                 returnedUser = gson.fromJson(result, User.class);
             } catch (Exception e) {
-                e.printStackTrace();
+                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 return;
             }
 

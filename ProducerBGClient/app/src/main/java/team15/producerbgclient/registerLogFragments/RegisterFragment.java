@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,78 +36,90 @@ import team15.producerbgclient.User;
 /**
  * Created by veso on 1/10/2016.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements View.OnClickListener {
 
-    TextView title;
     EditText usernameInput;
     EditText passwordInput;
     EditText confirmPassInput;
     EditText emailInput;
     Button sumbitBtn;
+    LinearLayout currentContainer;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
 
-        title = (TextView) rootView.findViewById(R.id.tv_title_register_form);
-        usernameInput = (EditText) rootView.findViewById(R.id.ed_username_input);
-        passwordInput = (EditText) rootView.findViewById(R.id.ed_password_input);
         confirmPassInput = (EditText) rootView.findViewById(R.id.ed_confirm_password_input);
         emailInput = (EditText) rootView.findViewById(R.id.ed_email_input);
+        usernameInput = (EditText) rootView.findViewById(R.id.ed_username_input);
+        passwordInput = (EditText) rootView.findViewById(R.id.ed_password_input);
 
         sumbitBtn = (Button) rootView.findViewById(R.id.btn_register);
-        sumbitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View view = getActivity().getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+        sumbitBtn.setOnClickListener(this);
 
-                String usernameString = usernameInput.getText().toString().trim();
-                String passString = passwordInput.getText().toString().trim();
-                String confirmPassString = confirmPassInput.getText().toString().trim();
-                String emailString = emailInput.getText().toString().trim();
-
-                Pattern pattern = Pattern.compile("([\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Za-z]{2,4})");
-                Matcher matcher = pattern.matcher(emailString);
-
-                if (usernameString.length() == 0) {
-                    usernameInput.setError("Username is required!");
-                    return;
-                } else if (usernameString.length() < 6) {
-                    usernameInput.setError("Username should be at least 6 characters long!");
-                    return;
-                } else if (passString.length() == 0) {
-                    passwordInput.setError("Password is required!");
-                    return;
-                } else if (passString.length() < 6) {
-                    passwordInput.setError("Password should be at least 6 characters long!");
-                    return;
-                } else if (!passString.equals(confirmPassString)) {
-                    confirmPassInput.setError("Password and confirm pass should be equal!");
-                    return;
-                } else if (!matcher.matches()) {
-                    emailInput.setError("You have entered invalid email!");
-                    return;
-                }
-
-                ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if (networkInfo == null || !networkInfo.isConnected()) {
-                    Toast.makeText(getActivity().getApplicationContext(), "No internet connection!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                User userToBeRegistered = new User(usernameString, passString, emailString);
-                Gson gsonUser = new Gson();
-                String jsonStringUser = gsonUser.toJson(userToBeRegistered);
-
-                new RegisterUserTask().execute(jsonStringUser);
-            }
-        });
+        currentContainer = (LinearLayout) rootView.findViewById(R.id.register_layout);
+        currentContainer.setOnClickListener(this);
 
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+        int viewId = v.getId();
+        switch (viewId) {
+            case R.id.btn_register: {
+                registerUser();
+                break;
+            }
+        }
+    }
+
+    private void registerUser() {
+        String usernameString = usernameInput.getText().toString().trim();
+        String passString = passwordInput.getText().toString().trim();
+        String confirmPassString = confirmPassInput.getText().toString().trim();
+        String emailString = emailInput.getText().toString().trim();
+
+        Pattern pattern = Pattern.compile("([\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Za-z]{2,4})");
+        Matcher matcher = pattern.matcher(emailString);
+
+        if (usernameString.length() == 0) {
+            usernameInput.setError("Username is required!");
+            return;
+        } else if (usernameString.length() < 6) {
+            usernameInput.setError("Username should be at least 6 characters long!");
+            return;
+        } else if (passString.length() == 0) {
+            passwordInput.setError("Password is required!");
+            return;
+        } else if (passString.length() < 6) {
+            passwordInput.setError("Password should be at least 6 characters long!");
+            return;
+        } else if (!passString.equals(confirmPassString)) {
+            confirmPassInput.setError("Password and confirm pass should be equal!");
+            return;
+        } else if (!matcher.matches()) {
+            emailInput.setError("You have entered invalid email!");
+            return;
+        }
+
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            Toast.makeText(getActivity().getApplicationContext(), "No internet connection!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        User userToBeRegistered = new User(usernameString, passString, emailString);
+        Gson gsonUser = new Gson();
+        String jsonStringUser = gsonUser.toJson(userToBeRegistered);
+
+        new RegisterUserTask().execute(jsonStringUser);
     }
 
     private class RegisterUserTask extends AsyncTask<String, Void, String> {
@@ -117,75 +130,63 @@ public class RegisterFragment extends Fragment {
                 return registerUser(params[0]);
             } catch (Exception e) {
                 String errMessage = e.getMessage();
-                Log.e("connection error", "Unable to connect");
-                return null;
+                return errMessage;
             }
         }
 
         private String registerUser(String userToRegister) throws IOException {
-            HttpURLConnection urlConnection = null;
-            InputStream is = null;
+            URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/users");
+            HttpURLConnection urlConnection = (HttpURLConnection) baseUrl.openConnection();
 
-            try {
-                URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/users");
-                urlConnection = (HttpURLConnection) baseUrl.openConnection();
-                urlConnection.setReadTimeout(10000 /* milliseconds */);
-                urlConnection.setConnectTimeout(15000 /* milliseconds */);
-                urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
 
-                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
-                out.write(userToRegister.toString());
-                out.close();
+            OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+            out.write(userToRegister.toString());
+            out.close();
 
-                urlConnection.connect();
+            urlConnection.connect();
 
-                int responseCode = urlConnection.getResponseCode();
-                if (responseCode > 201) {
-                    return urlConnection.getResponseMessage();
-                }
-
-                is = urlConnection.getInputStream();
-                int numberOfChars;
-                StringBuffer sb = new StringBuffer();
-                while ((numberOfChars = is.read()) != -1) {
-                    sb.append((char) numberOfChars);
-                }
-
-                return sb.toString();
-            } finally {
-                if (is != null) {
-                    is.close();
-                }
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode > 201) {
+                return urlConnection.getResponseMessage();
             }
+
+            InputStream is = urlConnection.getInputStream();
+            int numberOfChars;
+            StringBuffer sb = new StringBuffer();
+            while ((numberOfChars = is.read()) != -1) {
+                sb.append((char) numberOfChars);
+            }
+
+            return sb.toString();
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (result == null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Unable to connect!", Toast.LENGTH_SHORT).show();
-                return;
-            }
             Gson gson = new Gson();
             User returnedUser = null;
 
             try {
                 returnedUser = gson.fromJson(result, User.class);
             } catch (Exception e) {
-                e.printStackTrace();
+                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            returnedUser.getUsername();
+            String username = returnedUser.getUsername();
+            String token = returnedUser.getToken();
 
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("username", returnedUser.getUsername());
-            editor.putString("token", returnedUser.getToken());
+            editor.putString("username", username);
+            editor.putString("token", token);
 
-            Toast.makeText(getActivity().getApplicationContext(), returnedUser.getUsername() + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), username + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
