@@ -12,12 +12,38 @@ public class Producer {
     private  String type;
     private  String description;
     private String email;
-    private String phone;
-    private List<String> products;
+    private String telephone;
+    private String[] mainProducts;
     private byte[] logo;
+    private double addressLongitude;
+    private double addressLatitude;
+
+    public Producer(String name, String description, String type, String[] products,
+                    String phone, byte[] logo, double longi, double lati) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.mainProducts = products;
+
+        this.telephone = phone;
+        this.logo = logo;
+        this.addressLongitude = longi;
+        this.addressLatitude = lati;
+    }
+
+    public Producer(String name, String description, String type, String[] products,
+                    String phone, byte[] logo) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.mainProducts = products;
+
+        this.telephone = phone;
+        this.logo = logo;
+    }
 
     public Producer() {
-        products = new ArrayList<>();
+        mainProducts = new String[5];
     }
 
     public String getId() {
@@ -61,20 +87,20 @@ public class Producer {
     }
 
     public String getPhone() {
-        return phone;
+        return telephone;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.telephone = phone;
     }
 
-    public List<String> getProducts() {
-        return new ArrayList<>(products);
+    public String[] getProducts() {
+        return this.mainProducts;
     }
 
-    public void setProducts(List<String> products) {
+    public void setProducts(String[] products) {
         if (products != null) {
-            this.products.addAll(products);
+            this.mainProducts = products;
         }
     }
 

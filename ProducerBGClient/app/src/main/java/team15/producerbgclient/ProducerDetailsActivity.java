@@ -287,7 +287,9 @@ public class ProducerDetailsActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             }
-            producer.setProducts(products);
+
+            String[] productsArray = products.toArray(new String[products.size()]);
+            producer.setProducts(productsArray);
 
             return producer;
         }

@@ -150,22 +150,23 @@
 
         <LinearLayout
             android:id="@+id/ll_logo_adress_wrapper"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
 
             <Button
                 android:id="@+id/btn_adress_producer"
-                android:layout_width="175dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/address"
                 style="@style/lessImportantBtnStyle"/>
 
             <Button
                 android:id="@+id/btn_logo_producer"
-                android:layout_width="175dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/address"
+                android:text="@string/logo"
                 style="@style/lessImportantBtnStyle"/>
 
         </LinearLayout>
