@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".RegisterLoginActivity" />
         <activity android:name=".ProducersActivity" />
+        <activity android:name=".AddNewProducerActivity" />
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

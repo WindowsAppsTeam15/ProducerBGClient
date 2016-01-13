@@ -19,4 +19,23 @@
     <string name="type">Type:</string>
     <string name="main_products">Main products:</string>
     <string name="phone">Phone:</string>
+
+    <string name="register_producer_title">Register new producer</string>
+    <string name="name">Name</string>
+    <string name="products">Products</string>
+    <string name="address">Set address</string>
+
+    <string-array name="types_array">
+        <item>Other</item>
+        <item>Agricultural</item>
+        <item>Food</item>
+        <item>Beverages</item>
+        <item>Furniture</item>
+        <item>Clothes</item>
+        <item>Machines</item>
+        <item>Cars</item>
+        <item>Bicycles</item>
+        <item>Toys</item>
+        <item>Other</item>
+    </string-array>
 </resources>
