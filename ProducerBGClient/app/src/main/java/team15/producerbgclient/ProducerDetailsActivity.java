@@ -97,7 +97,7 @@ public class ProducerDetailsActivity extends BaseActivity {
                 mainProducts = (ListView) findViewById(R.id.lv_main_products);
 
                 if (logo != null) {
-                    if (producer.getLogo() != null) {
+                    if (producer.getLogo().length != 0) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(producer.getLogo(), 0, producer.getLogo().length);
                         logo.setImageBitmap(bitmap);
                     } else {
@@ -188,34 +188,18 @@ public class ProducerDetailsActivity extends BaseActivity {
 
             Producer producer = new Producer();
 
-            JSONObject image = null;
+            JSONArray image = null;
             try {
-                image = producerJson.getJSONObject("img");
+                image = producerJson.getJSONArray("logo");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            JSONObject data = null;
-            if (image != null) {
-                try {
-                    data = image.getJSONObject("data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            JSONArray dataArr = null;
-            if (data != null) {
-                try {
-                    dataArr = data.getJSONArray("data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
             byte[] imgByteArr = null;
-            if (dataArr != null) {
-                imgByteArr = new byte[dataArr.length()];
-                for (int i = 0; i < dataArr.length(); i++) {
+            if (image != null) {
+                imgByteArr = new byte[image.length()];
+                for (int i = 0; i < image.length(); i++) {
                     try {
-                        imgByteArr[i] = (byte) dataArr.getInt(i);
+                        imgByteArr[i] = (byte) image.getInt(i);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

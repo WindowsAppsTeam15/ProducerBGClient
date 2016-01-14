@@ -41,7 +41,7 @@ public class ProducerAdapter extends ArrayAdapter<Producer> {
             TextView type = (TextView) v.findViewById(R.id.tv_producer_type);
 
             if (logo != null) {
-                if (producer.getLogo() != null) {
+                if (producer.getLogo().length != 0) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(producer.getLogo(), 0, producer.getLogo().length);
                     logo.setImageBitmap(bitmap);
                 } else {

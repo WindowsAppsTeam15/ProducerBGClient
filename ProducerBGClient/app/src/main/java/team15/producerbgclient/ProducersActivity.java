@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProducersActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-    private  List<Producer> producers;
-    private  ProducerAdapter adapter;
+    private List<Producer> producers;
+    private ProducerAdapter adapter;
     private ListView listView;
 
     @Override
@@ -36,7 +35,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producers);
 
-        producers = new ArrayList<Producer>();
+        producers = new ArrayList<>();
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -59,7 +58,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
     private class GetProducersTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
-            return  getAllProducers();
+            return getAllProducers();
         }
 
         @Override
@@ -67,7 +66,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
             ParseJsonData(producersStr);
 
             adapter = new ProducerAdapter(ProducersActivity.this, R.layout.list_item, producers);
-            listView = (ListView)findViewById(R.id.lv_producers);
+            listView = (ListView) findViewById(R.id.lv_producers);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(ProducersActivity.this);
         }
@@ -83,40 +82,24 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
             for (int i = 0; i < json.length(); i++) {
                 JSONObject producerJson = null;
                 try {
-                    producerJson  = json.getJSONObject(i);
+                    producerJson = json.getJSONObject(i);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 Producer producer = new Producer();
-                JSONObject image = null;
+                JSONArray logo = null;
                 try {
-                    image = producerJson.getJSONObject("img");
+                    logo = producerJson.getJSONArray("logo");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                JSONObject data = null;
-                if (image != null) {
-                    try {
-                        data = image.getJSONObject("data");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                JSONArray dataArr = null;
-                if (data != null) {
-                    try {
-                        dataArr = data.getJSONArray("data");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
                 byte[] imgByteArr = null;
-                if (dataArr != null) {
-                    imgByteArr = new byte[dataArr.length()];
-                    for (int j = 0; j < dataArr.length(); j++) {
+                if (logo != null) {
+                    imgByteArr = new byte[logo.length()];
+                    for (int j = 0; j < logo.length(); j++) {
                         try {
-                            imgByteArr[j] = (byte) dataArr.getInt(j);
+                            imgByteArr[j] = (byte) logo.getInt(j);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -127,8 +110,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                 String id = null;
                 try {
                     id = producerJson.getString("_id");
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 producer.setId(id);
@@ -136,8 +118,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                 String name = null;
                 try {
                     name = producerJson.getString("name");
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 producer.setName(name);
@@ -145,8 +126,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                 String type = null;
                 try {
                     type = producerJson.getString("type");
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 producer.setType(type);
@@ -154,8 +134,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                 String description = null;
                 try {
                     description = producerJson.getString("description");
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 producer.setDescription(description);
@@ -191,12 +170,10 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                 }
 
                 producersStr = buffer.toString();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Log.e("ProducersActivity", "Error ", e);
                 producersStr = null;
-            }
-            finally {
+            } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
@@ -209,7 +186,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                 }
             }
 
-            return  producersStr;
+            return producersStr;
         }
     }
 }

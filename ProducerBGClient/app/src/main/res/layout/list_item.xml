@@ -6,8 +6,7 @@
     <ImageView
         android:id="@+id/iv_producer_logo"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:src="@drawable/ic_launcher"/>
+        android:layout_height="160dp" />
 
     <TextView
         android:id="@+id/tv_producer_name"
