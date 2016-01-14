@@ -6,11 +6,11 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProducerDetailsActivity extends BaseActivity {
-    private String id;
     private ImageView logo;
     private TextView name;
     private TextView type;
@@ -45,7 +44,7 @@ public class ProducerDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_producer_details);
 
         Bundle bundle = getIntent().getExtras();
-        id = bundle.getString("ProducerId");
+        String id = bundle.getString("ProducerId");
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -54,7 +53,7 @@ public class ProducerDetailsActivity extends BaseActivity {
             return;
         }
 
-        new GetProducerDetailsTask().execute();
+        new GetProducerDetailsTask().execute(id);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -77,11 +76,12 @@ public class ProducerDetailsActivity extends BaseActivity {
         }
     }
 
-    private class GetProducerDetailsTask extends AsyncTask<Void, Void, String> {
+    private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
 
         @Override
-        protected String doInBackground(Void... params) {
-            return getProducerById();
+        protected String doInBackground(String... params) {
+            String id = params[0];
+            return getProducerById(id);
         }
 
         @Override
@@ -130,7 +130,7 @@ public class ProducerDetailsActivity extends BaseActivity {
             }
         }
 
-        private String getProducerById() {
+        private String getProducerById(String id) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String producerStr = null;

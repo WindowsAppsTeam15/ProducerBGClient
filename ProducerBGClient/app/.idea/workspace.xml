@@ -37,11 +37,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ProducerDetailsActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProducerDetailsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducerDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5022625">
-              <caret line="99" column="54" selection-start-line="99" selection-start-column="54" selection-end-line="99" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="46" column="51" selection-start-line="46" selection-start-column="51" selection-end-line="46" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_producers.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_producers.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.551724">
+              <caret line="23" column="19" selection-start-line="8" selection-start-column="4" selection-end-line="23" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -51,8 +66,12 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducersActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-              <folding />
+              <caret line="40" column="68" selection-start-line="40" selection-start-column="68" selection-end-line="40" selection-end-column="68" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2739#2740#0" expanded="true" />
+                <element signature="e#2803#2804#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -67,15 +86,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_producer_details.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="activity_producer_details.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_producer_details.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.3109756">
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+              <folding>
+                <element signature="e#654#689#0" expanded="true" />
+                <element signature="e#719#754#0" expanded="true" />
+                <element signature="e#1715#1750#0" expanded="true" />
+                <element signature="e#1788#1823#0" expanded="true" />
+                <element signature="e#2060#2081#0" expanded="true" />
+                <element signature="e#2424#2459#0" expanded="true" />
+                <element signature="e#2497#2532#0" expanded="true" />
+                <element signature="e#3183#3218#0" expanded="true" />
+                <element signature="e#3256#3291#0" expanded="true" />
+                <element signature="e#3528#3542#0" expanded="true" />
+                <element signature="e#4000#4035#0" expanded="true" />
+                <element signature="e#4073#4108#0" expanded="true" />
+                <element signature="e#4845#4880#0" expanded="true" />
+                <element signature="e#4918#4953#0" expanded="true" />
+                <element signature="e#5190#5213#0" expanded="true" />
+                <element signature="e#5927#5962#0" expanded="true" />
+                <element signature="e#6000#6035#0" expanded="true" />
+                <element signature="e#6272#6287#0" expanded="true" />
+                <element signature="e#6726#6761#0" expanded="true" />
+                <element signature="e#6799#6834#0" expanded="true" />
+                <element signature="e#7539#7574#0" expanded="true" />
+                <element signature="e#7612#7647#0" expanded="true" />
+                <element signature="e#7884#7899#0" expanded="true" />
+                <element signature="e#8342#8377#0" expanded="true" />
+                <element signature="e#8415#8450#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1651,10 +1696,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducersActivity.java" />
         <option value="$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducerAdapter.java" />
         <option value="$PROJECT_DIR$/src/main/res/layout/list_item.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_producers.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducersActivity.java" />
         <option value="$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducerDetailsActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_producer_details.xml" />
       </list>
     </option>
   </component>
@@ -1806,6 +1853,8 @@
     <property name="recentsLimit" value="5" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="192.168.56.101:5555" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="AVD_GalaxyNexus_ToolsForApacheCordova" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1956,14 +2005,14 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5829146" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3551089" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23596358" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -1994,29 +2043,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducersActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="47" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_producer_details.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2032,11 +2062,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducersActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="68" selection-start-line="40" selection-start-column="68" selection-end-line="40" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2739#2740#0" expanded="true" />
+            <element signature="e#2803#2804#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_producers.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.551724">
+          <caret line="23" column="19" selection-start-line="8" selection-start-column="4" selection-end-line="23" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/team15/producerbgclient/ProducerDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5022625">
-          <caret line="99" column="54" selection-start-line="99" selection-start-column="54" selection-end-line="99" selection-end-column="54" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="51" selection-start-line="46" selection-start-column="51" selection-end-line="46" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_producer_details.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3109756">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding>
+            <element signature="e#654#689#0" expanded="true" />
+            <element signature="e#719#754#0" expanded="true" />
+            <element signature="e#1715#1750#0" expanded="true" />
+            <element signature="e#1788#1823#0" expanded="true" />
+            <element signature="e#2060#2081#0" expanded="true" />
+            <element signature="e#2424#2459#0" expanded="true" />
+            <element signature="e#2497#2532#0" expanded="true" />
+            <element signature="e#3183#3218#0" expanded="true" />
+            <element signature="e#3256#3291#0" expanded="true" />
+            <element signature="e#3528#3542#0" expanded="true" />
+            <element signature="e#4000#4035#0" expanded="true" />
+            <element signature="e#4073#4108#0" expanded="true" />
+            <element signature="e#4845#4880#0" expanded="true" />
+            <element signature="e#4918#4953#0" expanded="true" />
+            <element signature="e#5190#5213#0" expanded="true" />
+            <element signature="e#5927#5962#0" expanded="true" />
+            <element signature="e#6000#6035#0" expanded="true" />
+            <element signature="e#6272#6287#0" expanded="true" />
+            <element signature="e#6726#6761#0" expanded="true" />
+            <element signature="e#6799#6834#0" expanded="true" />
+            <element signature="e#7539#7574#0" expanded="true" />
+            <element signature="e#7612#7647#0" expanded="true" />
+            <element signature="e#7884#7899#0" expanded="true" />
+            <element signature="e#8342#8377#0" expanded="true" />
+            <element signature="e#8415#8450#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

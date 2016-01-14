@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
     private List<Producer> producers;
     private ProducerAdapter adapter;
     private ListView listView;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_producers);
 
         producers = new ArrayList<>();
+        linearLayout = (LinearLayout)findViewById(R.id.ll_progress);
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -69,6 +72,12 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
             listView = (ListView) findViewById(R.id.lv_producers);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(ProducersActivity.this);
+            linearLayout.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            linearLayout.setVisibility(View.VISIBLE);
         }
 
         private void ParseJsonData(String producersStr) {
