@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import team15.producerbgclient.AddNewProducerActivity;
 import team15.producerbgclient.HomeActivity;
 import team15.producerbgclient.R;
 import team15.producerbgclient.User;
@@ -188,7 +189,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
             Toast.makeText(getActivity().getApplicationContext(), username + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            Intent intent = new Intent(getActivity(), AddNewProducerActivity.class);
             startActivity(intent);
             return;
         }
