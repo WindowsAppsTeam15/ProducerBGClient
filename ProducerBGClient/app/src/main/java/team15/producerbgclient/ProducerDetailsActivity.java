@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -36,7 +37,7 @@ public class ProducerDetailsActivity extends BaseActivity {
     private TextView description;
     private TextView email;
     private TextView phone;
-    private ListView mainProducts;
+    private TextView mainProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class ProducerDetailsActivity extends BaseActivity {
                 description = (TextView) findViewById(R.id.tv_producer_details_description);
                 email = (TextView) findViewById(R.id.tv_producer_details_email);
                 phone = (TextView) findViewById(R.id.tv_producer_details_phone);
-                mainProducts = (ListView) findViewById(R.id.lv_main_products);
+                mainProducts = (TextView) findViewById(R.id.tv_main_products);
 
                 if (logo != null) {
                     if (producer.getLogo().length != 0) {
@@ -101,11 +102,7 @@ public class ProducerDetailsActivity extends BaseActivity {
                     phone.setText(producer.getPhone());
                 }
                 if (mainProducts != null) {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                            ProducerDetailsActivity.this,
-                            android.R.layout.simple_list_item_1,
-                            producer.getProducts());
-                    mainProducts.setAdapter(adapter);
+                    mainProducts.setText(TextUtils.join("\n\n", producer.getProducts()));
                 }
             }
         }
