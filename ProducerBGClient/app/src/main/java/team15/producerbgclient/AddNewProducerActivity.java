@@ -32,6 +32,13 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -53,7 +60,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddNewProducerActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks {
+public class AddNewProducerActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
     TextView title;
 
     EditText producerNameInput;
@@ -86,6 +93,9 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
     String currentProducerId;
 
     GoogleApiClient mGoogleApiClient;
+
+    GoogleMap currentMap;
+    Marker addressMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +152,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         logoBtn.setOnClickListener(this);
         sumbitBtn.setOnClickListener(this);
         currentContainer.setOnClickListener(this);
+
+//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -313,18 +327,40 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         }
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
-            addressLatitude = mLastLocation.getLatitude());
+            addressLatitude = mLastLocation.getLatitude();
             addressLongitude = mLastLocation.getLongitude();
         } else {
             addressLatitude = 42.676009;
             addressLongitude = 23.358279;
         }
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
 
     }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        currentMap = map;
+        currentMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                addressLatitude = latLng.latitude;
+                addressLongitude = latLng.longitude;
+                currentMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(addressLatitude, addressLongitude), 15));
+                addressMarker.setPosition(latLng);
+            }
+        });
+        currentMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(addressLatitude, addressLongitude), 15));
+        addressMarker = currentMap.addMarker(new MarkerOptions()
+                .position(new LatLng(addressLatitude, addressLongitude))
+                .title("Producer address"));
+    }
+
 
 
     private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
