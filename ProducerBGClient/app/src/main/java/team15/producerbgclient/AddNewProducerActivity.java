@@ -1,17 +1,21 @@
 package team15.producerbgclient;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,6 +29,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -46,10 +60,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by veso on 1/13/2016.
- */
-public class AddNewProducerActivity extends BaseActivity implements View.OnClickListener {
+public class AddNewProducerActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
     TextView title;
 
     EditText producerNameInput;
@@ -81,6 +92,11 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
 
     String currentProducerId;
 
+    GoogleApiClient mGoogleApiClient;
+
+    GoogleMap currentMap;
+    Marker addressMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +123,13 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
 
         title = (TextView) findViewById(R.id.tv_title_register_producer);
 
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             currentProducerId = bundle.getString("ProducerId");
@@ -129,6 +152,22 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         logoBtn.setOnClickListener(this);
         sumbitBtn.setOnClickListener(this);
         currentContainer.setOnClickListener(this);
+
+//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
@@ -255,6 +294,11 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             logo = getBytesFromBitmap(yourSelectedImage);
 
             dialog.hide();
+        } else if (requestCode == 2 && resultCode == -1) {
+            Uri selectedImageUri = data.getData();
+
+            InputStream imageStream = null;
+
         }
     }
 
@@ -266,10 +310,61 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
     }
 
     public void getProducerAddress() {
+
         // To be refactored - it will directs you to select pont from google maps
-        addressLatitude = 42.676009;
-        addressLongitude = 23.358279;
-        return;
+        Uri gmmIntentUri = Uri.parse("geo:42.676009,23.358279?q=42.676009,23.358279");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivityForResult(mapIntent, 2);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            addressLatitude = 42.676009;
+            addressLongitude = 23.358279;
+            return;
+        }
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            addressLatitude = mLastLocation.getLatitude();
+            addressLongitude = mLastLocation.getLongitude();
+        } else {
+            addressLatitude = 42.676009;
+            addressLongitude = 23.358279;
+        }
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        currentMap = map;
+        currentMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                addressLatitude = latLng.latitude;
+                addressLongitude = latLng.longitude;
+                currentMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(addressLatitude, addressLongitude), 15));
+                addressMarker.setPosition(latLng);
+            }
+        });
+        currentMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(addressLatitude, addressLongitude), 15));
+        addressMarker = currentMap.addMarker(new MarkerOptions()
+                .position(new LatLng(addressLatitude, addressLongitude))
+                .title("Producer address"));
+    }
+
+    public String getToken() {
+        SharedPreferences sharedPref = getSharedPreferences("producerBGclientPref", Context.MODE_PRIVATE);
+        String token = sharedPref.getString("token", null);
+        return token;
     }
 
     private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
@@ -395,7 +490,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            String token = getToken();
+
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
 
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
             out.write(editedProducer.toString());
@@ -465,7 +563,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            String token = getToken();
+
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
 
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
             out.write(producerToRegister.toString());
@@ -533,7 +634,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("DELETE");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            String token = getToken();
+
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             urlConnection.connect();
 
             int responseCode = urlConnection.getResponseCode();
