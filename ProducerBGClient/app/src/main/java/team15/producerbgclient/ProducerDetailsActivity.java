@@ -96,6 +96,8 @@ public class ProducerDetailsActivity extends BaseActivity {
                 phone = (TextView) findViewById(R.id.tv_producer_details_phone);
                 mainProducts = (ListView) findViewById(R.id.lv_main_products);
 
+                byte[] log = producer.getLogo();
+
                 if (logo != null) {
                     if (producer.getLogo().length != 0) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(producer.getLogo(), 0, producer.getLogo().length);

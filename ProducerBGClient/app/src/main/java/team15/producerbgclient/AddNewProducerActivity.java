@@ -32,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -172,33 +174,37 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         new RegisterProducerTask().execute(jsonStringProducer);
     }
 
+    private byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, stream);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == -1) {
             dialog = ProgressDialog.show(this, "", "Uploading logo...", true);
             Uri selectedImageUri = data.getData();
+
             InputStream imageStream = null;
             try {
                 imageStream = getContentResolver().openInputStream(selectedImageUri);
             } catch (FileNotFoundException e) {
-                Toast.makeText(getApplicationContext(), "Unable to upload log.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unable to upload logo.", Toast.LENGTH_SHORT).show();
                 return;
             }
             Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
 
-            int bytes = yourSelectedImage.getByteCount();
+            logo = getBytesFromBitmap(yourSelectedImage);
 
-            ByteBuffer buffer = ByteBuffer.allocate(bytes);
-            yourSelectedImage.copyPixelsToBuffer(buffer);
-
-            logo = buffer.array();
             dialog.hide();
         }
     }
 
     private void uploadProducerLogo() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/png");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
     }
