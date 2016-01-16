@@ -4,196 +4,214 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="team15.producerbgclient.ProducerDetailsActivity">
-    
+
     <ImageView
         android:id="@+id/iv_producer_details_logo"
         android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/tv_producer_details_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_gravity="bottom"
-        android:gravity="center_vertical"
-        android:background="#5c1b1b1b"
-        android:alpha="0.8"
-        android:textColor="#fff"
-        android:textSize="26sp"
-        android:text="Test"
         android:layout_alignBottom="@+id/iv_producer_details_logo"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom"
+        android:alpha="0.8"
+        android:background="#5c1b1b1b"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="Test"
+        android:textColor="#fff"
+        android:textSize="26sp" />
 
-    <ScrollView
-        android:id="@+id/sv_producer_details"
+    <TextView
+        android:id="@+id/tv_description_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_producer_details_name"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="@string/description"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_producer_details_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_producer_details_logo">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_description_label"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="Test Test Test Test Test"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_producer_details_description"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="@string/type"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-            <TextView
-                android:id="@+id/tv_description_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:text="@string/description"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/tv_producer_details_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_producer_details_description"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/tv_type_label"
+        android:layout_toRightOf="@id/tv_type_label"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="Test Type Text"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-            <TextView
-                android:id="@+id/tv_producer_details_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:text="Test Test Test Test Test"
-                android:layout_below="@id/tv_description_label"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+    <TextView
+        android:id="@+id/tv_producer_details_main_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_producer_details_type"
+        android:layout_marginTop="8dp"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="@string/main_products"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-            <TextView
-                android:id="@+id/tv_type_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:text="@string/type"
-                android:layout_below="@+id/tv_producer_details_description"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:id="@+id/ll_main_products_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_producer_details_main_products">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test Type Text"
-                android:id="@+id/tv_producer_details_type"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:layout_below="@+id/tv_producer_details_description"
-                android:layout_toRightOf="@id/tv_type_label"
-                android:layout_toEndOf="@id/tv_type_label"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"/>
+        <ListView
+            android:id="@+id/lv_main_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_producer_details_main_products"></ListView>
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_producer_details_main_products"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:text="@string/main_products"
-                android:layout_marginTop="8dp"
-                android:layout_below="@id/tv_producer_details_type"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
 
-            <ListView
-                android:id="@+id/lv_main_products"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_below="@id/tv_producer_details_main_products">
-            </ListView>
+    <TextView
+        android:id="@+id/tv_email_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/ll_main_products_wrapper"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="@string/email"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-            <TextView
-                android:id="@+id/tv_email_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:text="@string/email"
-                android:layout_below="@+id/lv_main_products"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+    <TextView
+        android:id="@+id/tv_producer_details_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_main_products_wrapper"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/tv_email_label"
+        android:layout_toRightOf="@id/tv_email_label"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="Test Email"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test Email"
-                android:id="@+id/tv_producer_details_email"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:layout_below="@+id/lv_main_products"
-                android:layout_toRightOf="@id/tv_email_label"
-                android:layout_toEndOf="@id/tv_email_label"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_phone"
+        android:background="@android:color/transparent"
+        android:layout_alignTop="@+id/tv_producer_details_phone"
+        android:layout_alignRight="@+id/tv_producer_details_type"
+        android:layout_alignEnd="@+id/tv_producer_details_type"
+        android:layout_alignBottom="@+id/tv_producer_details_phone"
+        android:id="@+id/ib_phone" />
 
-            <TextView
-                android:id="@+id/tv_phone_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:text="@string/phone"
-                android:layout_below="@id/tv_email_label"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+    <TextView
+        android:id="@+id/tv_phone_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_email_label"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="@string/phone"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test Phone number"
-                android:id="@+id/tv_producer_details_phone"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:alpha="0.8"
-                android:textColor="#ff272727"
-                android:textSize="15dp"
-                android:layout_below="@id/tv_email_label"
-                android:layout_toRightOf="@id/tv_phone_label"
-                android:layout_toEndOf="@id/tv_phone_label"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"/>
+    <TextView
+        android:id="@+id/tv_producer_details_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_email_label"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/tv_phone_label"
+        android:layout_toRightOf="@id/tv_phone_label"
+        android:alpha="0.8"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        android:text="Test Phone number"
+        android:textColor="#ff272727"
+        android:textSize="15dp" />
 
-        </RelativeLayout>
-    </ScrollView>
+    <ImageButton
+        android:id="@+id/ib_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_mail"
+        android:background="@android:color/transparent"
+        android:layout_alignTop="@+id/tv_producer_details_email"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/ib_phone" />
+
 </RelativeLayout>

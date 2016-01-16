@@ -45,8 +45,8 @@ public class ProducerAdapter extends ArrayAdapter<Producer> {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(producer.getLogo(), 0, producer.getLogo().length);
                     logo.setImageBitmap(bitmap);
                 } else {
-                    new DownloadImageTask(logo).execute(
-                            "http://www.whichsocialmedia.com/wp-content/uploads/2013/04/no-logo.png");
+                    //new DownloadImageTask(logo).execute(
+                    //        "http://www.whichsocialmedia.com/wp-content/uploads/2013/04/no-logo.png");
                 }
             }
             if (name != null){
@@ -60,6 +60,7 @@ public class ProducerAdapter extends ArrayAdapter<Producer> {
         return  v;
     }
 
+    /*
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         private ImageView image;
 
@@ -84,4 +85,5 @@ public class ProducerAdapter extends ArrayAdapter<Producer> {
             image.setImageBitmap(result);
         }
     }
+    */
 }
