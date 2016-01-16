@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
+
+    <LinearLayout
+        android:id="@+id/ll_logo_thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_alignTop="@+id/tv_producer_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ImageView
+            android:id="@+id/iv_producer_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/iv_producer_logo"
-        android:layout_width="match_parent"
-        android:layout_height="160dp" />
+        android:id="@+id/iv_arrow"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow" />
 
     <TextView
         android:id="@+id/tv_producer_name"
-        android:layout_width="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center_vertical"
-        android:background="#5c1b1b1b"
+        android:layout_toRightOf="@id/ll_logo_thumbnail"
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
+        android:paddingBottom ="10dp"
+        android:text="Here will be the name"
         android:alpha="0.8"
-        android:textColor="#fff"
-        android:textSize="16sp"
-        android:text="Test"
-        android:layout_alignBottom="@+id/iv_producer_logo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textColor="#ff272727"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/tv_producer_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:text="Type"
-        android:textSize="12sp"
-        android:layout_alignBottom="@+id/iv_producer_logo"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        android:layout_below="@id/tv_producer_name"
+        android:layout_alignLeft="@id/tv_producer_name"
+        android:paddingTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:text="Here will be the type"
+        android:alpha="0.8"
+        android:textColor="#343434"
+        android:textSize="15sp" />
+
+</RelativeLayout>  
