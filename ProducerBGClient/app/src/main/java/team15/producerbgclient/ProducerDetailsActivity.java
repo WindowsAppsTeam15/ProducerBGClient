@@ -56,26 +56,6 @@ public class ProducerDetailsActivity extends BaseActivity {
         new GetProducerDetailsTask().execute(id);
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap bitmapImage = null;
-            try {
-                InputStream inputStream = new URL(url).openStream();
-                bitmapImage = BitmapFactory.decodeStream(inputStream);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return bitmapImage;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            logo.setImageBitmap(result);
-        }
-    }
-
     private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -96,15 +76,12 @@ public class ProducerDetailsActivity extends BaseActivity {
                 phone = (TextView) findViewById(R.id.tv_producer_details_phone);
                 mainProducts = (ListView) findViewById(R.id.lv_main_products);
 
-                byte[] log = producer.getLogo();
-
                 if (logo != null) {
                     if (producer.getLogo().length != 0) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(producer.getLogo(), 0, producer.getLogo().length);
                         logo.setImageBitmap(bitmap);
                     } else {
-                        new DownloadImageTask().execute(
-                                "http://www.whichsocialmedia.com/wp-content/uploads/2013/04/no-logo.png");
+                        logo.setImageResource(R.drawable.no_logo_available);
                     }
                 }
                 if (name != null) {
