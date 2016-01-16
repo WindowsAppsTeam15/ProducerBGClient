@@ -361,7 +361,11 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
                 .title("Producer address"));
     }
 
-
+    public String getToken() {
+        SharedPreferences sharedPref = getSharedPreferences("producerBGclientPref", Context.MODE_PRIVATE);
+        String token = sharedPref.getString("token", null);
+        return token;
+    }
 
     private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
 
@@ -486,7 +490,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            String token = getToken();
+
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
 
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
             out.write(editedProducer.toString());
@@ -556,7 +563,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            String token = getToken();
+
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
 
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
             out.write(producerToRegister.toString());
@@ -624,7 +634,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("DELETE");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            String token = getToken();
+
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             urlConnection.connect();
 
             int responseCode = urlConnection.getResponseCode();

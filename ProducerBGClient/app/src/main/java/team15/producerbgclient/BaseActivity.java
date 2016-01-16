@@ -29,15 +29,68 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        SharedPreferences sharedPref = getSharedPreferences("producerBGclientPref", Context.MODE_PRIVATE);
+        String user = sharedPref.getString("username", null);
+        if (user == null || user == "") {
+            getMenuInflater().inflate(R.menu.menu_limited, menu);
+
+            MenuItem loginBtn = (MenuItem) menu.findItem(R.id.action_login);
+
+            loginBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+
+                    Intent intent = new Intent(getApplication().getApplicationContext(), RegisterLoginActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        } else {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+
+            MenuItem manageProducersBtn = (MenuItem) menu.findItem(R.id.action_manage);
+            MenuItem addProducersBtn = (MenuItem) menu.findItem(R.id.action_add);
+            MenuItem logoutBtn = (MenuItem) menu.findItem(R.id.action_logout);
+
+            manageProducersBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Intent intent = new Intent(getApplication().getApplicationContext(), ManageProducersActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
+            addProducersBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Intent intent = new Intent(getApplication().getApplicationContext(), AddNewProducerActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
+            logoutBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    SharedPreferences sharedPref = getSharedPreferences("producerBGclientPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("username", null);
+                    editor.putString("token", null);
+                    editor.commit();
+
+                    Toast.makeText(getApplication().getApplicationContext(), "Sucsessfully loggged out!", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getApplication().getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        }
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        MenuItem manageProducersBtn = (MenuItem) menu.findItem(R.id.action_manage);
-        MenuItem addProducersBtn = (MenuItem) menu.findItem(R.id.action_add);
         MenuItem goHomeBtn = (MenuItem) menu.findItem(R.id.action_goHome);
-        MenuItem logoutBtn = (MenuItem) menu.findItem(R.id.action_logout);
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -50,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(getApplication(), ProducersActivity.class);
-                if (query != ""){
+                if (query != "") {
                     intent.putExtra("Query", query);
                 }
                 startActivity(intent);
@@ -65,43 +118,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
 
-        manageProducersBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplication().getApplicationContext(), ManageProducersActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
 
-        addProducersBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplication().getApplicationContext(), AddNewProducerActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
 
         goHomeBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplication().getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
-
-        logoutBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                SharedPreferences sharedPref = getApplication().getSharedPreferences("producerbg", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("username", null);
-                editor.putString("token", null);
-
-                Toast.makeText(getApplication().getApplicationContext(), "Sucsessfully loggged out!", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(getApplication().getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 return true;
