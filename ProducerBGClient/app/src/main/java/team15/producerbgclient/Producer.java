@@ -7,10 +7,10 @@ import java.util.List;
  * Created by Marina on 09/01/2016.
  */
 public class Producer {
-    private  String id;
-    private  String name;
-    private  String type;
-    private  String description;
+    private String id;
+    private String name;
+    private String type;
+    private String description;
     private String email;
     private String telephone;
     private String[] mainProducts;
@@ -110,5 +110,13 @@ public class Producer {
 
     public void setLogo(byte[] logo) {
         this.logo = logo;
+    }
+
+    public double getAddressLongitude() {
+        return this.addressLongitude;
+    }
+
+    public double getAddressLatitude() {
+        return this.addressLatitude;
     }
 }

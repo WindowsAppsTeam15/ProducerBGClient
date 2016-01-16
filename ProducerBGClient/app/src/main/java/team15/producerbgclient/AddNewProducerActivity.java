@@ -1,5 +1,6 @@
 package team15.producerbgclient;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,28 +18,44 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by veso on 1/13/2016.
  */
 public class AddNewProducerActivity extends BaseActivity implements View.OnClickListener {
+    TextView title;
+
     EditText producerNameInput;
     EditText producerDescriptionInput;
+
     Spinner producerTypeInput;
+    ArrayAdapter<CharSequence> adapter;
+
     EditText mainProductsInput;
     EditText telephoneInput;
 
@@ -64,18 +81,34 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.activity_register_producer);
 
         producerTypeInput = (Spinner) findViewById(R.id.sp_producer_type_input);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_array, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.types_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         producerTypeInput.setAdapter(adapter);
 
         producerNameInput = (EditText) findViewById(R.id.ed_producer_name_input);
         producerDescriptionInput = (EditText) findViewById(R.id.et_description_input);
         mainProductsInput = (EditText) findViewById(R.id.et_products_input);
-        telephoneInput  = (EditText) findViewById(R.id.ed_producer_telephone_input);
+        telephoneInput = (EditText) findViewById(R.id.ed_producer_telephone_input);
         adressBtn = (Button) findViewById(R.id.btn_adress_producer);
         logoBtn = (Button) findViewById(R.id.btn_logo_producer);
-        sumbitBtn = (Button) findViewById(R.id.btn_register_producer);;
+        sumbitBtn = (Button) findViewById(R.id.btn_register_producer);
         currentContainer = (LinearLayout) findViewById(R.id.register_producer_layout);
+
+        title = (TextView) findViewById(R.id.tv_title_register_producer);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String id = bundle.getString("ProducerId");
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo == null || !networkInfo.isConnected()) {
+                Toast.makeText(getApplicationContext(), "No internet connection!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            dialog = ProgressDialog.show(this, "", "Loading producer details...", true);
+
+            new GetProducerDetailsTask().execute(id);
+        }
 
         adressBtn.setOnClickListener(this);
         logoBtn.setOnClickListener(this);
@@ -159,12 +192,6 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             yourSelectedImage.copyPixelsToBuffer(buffer);
 
             logo = buffer.array();
-            for (int i = 0; i < logo.length; i++) {
-                if (logo[i] != 0) {
-                    int current = logo[i];
-                }
-            }
-            String logoString = logo.toString();
             dialog.hide();
         }
     }
@@ -183,6 +210,102 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         return;
     }
 
+    private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String id = params[0];
+            return getProducerById(id);
+        }
+
+        @Override
+        protected void onPostExecute(String producerStr) {
+            Gson gson = new Gson();
+            Producer returnedProducer = null;
+
+            try {
+                returnedProducer = gson.fromJson(producerStr, Producer.class);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (returnedProducer != null) {
+                title.setText("Edit \'" + returnedProducer.getName() + "\'");
+
+                producerNameInput.setText(returnedProducer.getName());
+                producerDescriptionInput.setText(returnedProducer.getDescription());
+
+                int spinnerPosition = adapter.getPosition(returnedProducer.getType());
+                producerTypeInput.setSelection(spinnerPosition);
+
+                StringBuffer sbf = new StringBuffer();
+                String[] arrayOfProducts = returnedProducer.getProducts();
+                if (arrayOfProducts.length > 0) {
+                    sbf.append(arrayOfProducts[0]);
+                    for (int i = 1; i < arrayOfProducts.length; i++) {
+                        sbf.append(" ").append(arrayOfProducts[i]);
+                    }
+                }
+                String scringProducts = sbf.toString();
+                mainProductsInput.setText(scringProducts);
+
+                telephoneInput.setText(returnedProducer.getPhone());
+
+                addressLatitude = returnedProducer.getAddressLatitude();
+                addressLongitude = returnedProducer.getAddressLongitude();
+
+                dialog.hide();
+            }
+        }
+
+        private String getProducerById(String id) {
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            String producerStr = null;
+
+            try {
+                URL url = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers/" + id);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    producerStr = null;
+                }
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+
+                if (buffer.length() == 0) {
+                    producerStr = null;
+                }
+
+                producerStr = buffer.toString();
+            } catch (IOException e) {
+                Log.e("ProducerDetailsActivity", "Error ", e);
+                producerStr = null;
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("ProducerDetailsActivity", "Error closing stream", e);
+                    }
+                }
+            }
+
+            return producerStr;
+        }
+    }
 
     private class RegisterProducerTask extends AsyncTask<String, Void, String> {
         @Override

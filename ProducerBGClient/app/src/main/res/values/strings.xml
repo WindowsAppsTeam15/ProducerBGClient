@@ -27,16 +27,15 @@
     <string name="logo">Upload logo</string>
 
     <string-array name="types_array">
-        <item>Other</item>
-        <item>Agricultural</item>
-        <item>Food</item>
-        <item>Beverages</item>
-        <item>Furniture</item>
-        <item>Clothes</item>
-        <item>Machines</item>
-        <item>Cars</item>
-        <item>Bicycles</item>
-        <item>Toys</item>
-        <item>Other</item>
+        <item>other</item>
+        <item>agricultural</item>
+        <item>food</item>
+        <item>beverages</item>
+        <item>furniture</item>
+        <item>clothes</item>
+        <item>machines</item>
+        <item>cars</item>
+        <item>bicycles</item>
+        <item>toys</item>
     </string-array>
 </resources>
