@@ -1,18 +1,19 @@
 package team15.producerbgclient;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +26,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducerDetailsActivity extends BaseActivity {
+public class ProducerDetailsActivity extends BaseActivity implements View.OnLongClickListener {
     private ImageView logo;
     private TextView name;
     private TextView type;
@@ -38,6 +38,8 @@ public class ProducerDetailsActivity extends BaseActivity {
     private TextView email;
     private TextView phone;
     private TextView mainProducts;
+    private ImageButton phoneButton;
+    private ImageButton emailButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,35 @@ public class ProducerDetailsActivity extends BaseActivity {
         }
 
         new GetProducerDetailsTask().execute(id);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        int viewId = v.getId();
+
+        switch (viewId) {
+            case R.id.ib_email: {
+                String producerEmail = String.valueOf(email.getText());
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:" + producerEmail));
+                    startActivity(intent);
+                }
+                catch (Exception e) {
+                    return false;
+                }
+                break;
+            }
+            case R.id.ib_phone: {
+                String producerPhoneNumber = String.valueOf(phone.getText());
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + producerPhoneNumber));
+                startActivity(intent);
+                break;
+            }
+        }
+
+        return true;
     }
 
     private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {
@@ -77,6 +108,10 @@ public class ProducerDetailsActivity extends BaseActivity {
                 email = (TextView) findViewById(R.id.tv_producer_details_email);
                 phone = (TextView) findViewById(R.id.tv_producer_details_phone);
                 mainProducts = (TextView) findViewById(R.id.tv_main_products);
+                emailButton = (ImageButton) findViewById(R.id.ib_email);
+                emailButton.setOnLongClickListener(ProducerDetailsActivity.this);
+                phoneButton = (ImageButton) findViewById(R.id.ib_phone);
+                phoneButton.setOnLongClickListener(ProducerDetailsActivity.this);
 
                 if (logo != null) {
                     if (producer.getLogo().length != 0) {
