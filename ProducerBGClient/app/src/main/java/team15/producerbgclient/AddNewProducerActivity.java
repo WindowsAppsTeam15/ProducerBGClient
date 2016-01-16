@@ -73,9 +73,13 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
     Button logoBtn;
 
     Button sumbitBtn;
+    Button deleteBtn;
+    Button editBtn;
     LinearLayout currentContainer;
 
     ProgressDialog dialog;
+
+    String currentProducerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +95,22 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         producerDescriptionInput = (EditText) findViewById(R.id.et_description_input);
         mainProductsInput = (EditText) findViewById(R.id.et_products_input);
         telephoneInput = (EditText) findViewById(R.id.ed_producer_telephone_input);
+
         adressBtn = (Button) findViewById(R.id.btn_adress_producer);
         logoBtn = (Button) findViewById(R.id.btn_logo_producer);
+
         sumbitBtn = (Button) findViewById(R.id.btn_register_producer);
+        deleteBtn = (Button) findViewById(R.id.btn_delete_producer);
+        editBtn = (Button) findViewById(R.id.btn_edit_producer);
+
         currentContainer = (LinearLayout) findViewById(R.id.register_producer_layout);
 
         title = (TextView) findViewById(R.id.tv_title_register_producer);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String id = bundle.getString("ProducerId");
+            currentProducerId = bundle.getString("ProducerId");
+
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if (networkInfo == null || !networkInfo.isConnected()) {
@@ -109,7 +119,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             }
             dialog = ProgressDialog.show(this, "", "Loading producer details...", true);
 
-            new GetProducerDetailsTask().execute(id);
+            deleteBtn.setOnClickListener(this);
+            editBtn.setOnClickListener(this);
+
+            new GetProducerDetailsTask().execute(currentProducerId);
         }
 
         adressBtn.setOnClickListener(this);
@@ -140,38 +153,81 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
                 registerProducer();
                 break;
             }
+
+            case R.id.btn_delete_producer: {
+                deleteProducer();
+                break;
+            }
+
+            case R.id.btn_edit_producer: {
+                submitEditedProducer();
+                break;
+            }
         }
     }
 
+    private void deleteProducer() {
+        Boolean availableConnection = checkConnection();
+        if (!availableConnection) {
+            return;
+        }
+
+        dialog = ProgressDialog.show(this, "", "Deleting producer...", true);
+        new DeleteProducerTask().execute(currentProducerId);
+    }
+
+    private void submitEditedProducer() {
+        Boolean availableConnection = checkConnection();
+        if (!availableConnection) {
+            return;
+        }
+
+        String changedProducerDetails = gatherDetails();
+        dialog = ProgressDialog.show(this, "", "Editing producer...", true);
+        new EditProducerTask().execute(changedProducerDetails);
+    }
+
     private void registerProducer() {
+        Boolean availableConnection = checkConnection();
+        if (!availableConnection) {
+            return;
+        }
+
+        String jsonStringProducer = gatherDetails();
+        dialog = ProgressDialog.show(this, "", "Registering producer...", true);
+        new RegisterProducerTask().execute(jsonStringProducer);
+    }
+
+    private String gatherDetails() {
         String nameString = producerNameInput.getText().toString().trim();
         String descriptionString = producerDescriptionInput.getText().toString().trim();
         String typeString = producerTypeInput.getSelectedItem().toString().trim();
         String productsString = mainProductsInput.getText().toString().trim();
-
-
         String[] productsArray = productsString.split(" ");
         String telephone = telephoneInput.getText().toString().trim();
 
+        Producer producer;
+        if (addressLongitude == 0.0) {
+            producer = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo);
+        } else {
+            producer = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo, addressLongitude, addressLatitude);
+        }
+
+        Gson gsonProducer = new Gson();
+        String jsonStringProducer = gsonProducer.toJson(producer);
+
+        return jsonStringProducer;
+    }
+
+    private Boolean checkConnection() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnected()) {
             Toast.makeText(getApplicationContext(), "No internet connection!", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
-        Producer producerToRegister;
-        if (addressLongitude == 0.0) {
-            producerToRegister = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo);
-        } else {
-            producerToRegister = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo, addressLongitude, addressLatitude);
-        }
-
-        Gson gsonProducer = new Gson();
-        String jsonStringProducer = gsonProducer.toJson(producerToRegister);
-
-        dialog = ProgressDialog.show(this, "", "Registering producer...", true);
-        new RegisterProducerTask().execute(jsonStringProducer);
+        return true;
     }
 
     private byte[] getBytesFromBitmap(Bitmap bitmap) {
@@ -261,6 +317,10 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
                 addressLatitude = returnedProducer.getAddressLatitude();
                 addressLongitude = returnedProducer.getAddressLongitude();
 
+                deleteBtn.setVisibility(View.VISIBLE);
+                editBtn.setVisibility(View.VISIBLE);
+                sumbitBtn.setVisibility(View.GONE);
+
                 dialog.hide();
             }
         }
@@ -313,32 +373,32 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private class RegisterProducerTask extends AsyncTask<String, Void, String> {
+    private class EditProducerTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
             try {
-                return registerProducer(params[0]);
+                return editProducer(params[0]);
             } catch (Exception e) {
                 String errMessage = e.getMessage();
                 return errMessage;
             }
         }
 
-        private String registerProducer(String producerToRegister) throws IOException {
-            URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers");
+        private String editProducer(String editedProducer) throws IOException {
+            URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers/" + currentProducerId);
             HttpURLConnection urlConnection = (HttpURLConnection) baseUrl.openConnection();
 
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
 
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
-            out.write(producerToRegister.toString());
+            out.write(editedProducer.toString());
             out.close();
 
             urlConnection.connect();
@@ -376,8 +436,132 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
 
             Toast.makeText(getApplicationContext(), producerName + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
 
-//            Intent intent = new Intent(AddNewProducerActivity.this, HomeActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(AddNewProducerActivity.this, ProducerDetailsActivity.class);
+            intent.putExtra("ProducerId", currentProducerId);
+            startActivity(intent);
+            return;
+        }
+    }
+
+    private class RegisterProducerTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                return registerProducer(params[0]);
+            } catch (Exception e) {
+                String errMessage = e.getMessage();
+                return errMessage;
+            }
+        }
+
+        private String registerProducer(String producerToRegister) throws IOException {
+            URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers");
+            HttpURLConnection urlConnection = (HttpURLConnection) baseUrl.openConnection();
+
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+
+            OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+            out.write(producerToRegister.toString());
+            out.close();
+
+            urlConnection.connect();
+
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode > 201) {
+                String message = urlConnection.getResponseMessage();
+                return message;
+            }
+
+            InputStream is = urlConnection.getInputStream();
+            int numberOfChars;
+            StringBuffer sb = new StringBuffer();
+            while ((numberOfChars = is.read()) != -1) {
+                sb.append((char) numberOfChars);
+            }
+
+            return sb.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            dialog.hide();
+
+            Gson gson = new Gson();
+            Producer returnedProducer = null;
+
+            try {
+                returnedProducer = gson.fromJson(result, Producer.class);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String producerName = returnedProducer.getName();
+            Toast.makeText(getApplicationContext(), producerName + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(AddNewProducerActivity.this, HomeActivity.class);
+            startActivity(intent);
+            return;
+        }
+    }
+
+
+    private class DeleteProducerTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                return deleteProducer(params[0]);
+            } catch (Exception e) {
+                String errMessage = e.getMessage();
+                return null;
+            }
+        }
+
+        private String deleteProducer(String id) throws IOException {
+            URL baseUrl = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers/" + id);
+            HttpURLConnection urlConnection = (HttpURLConnection) baseUrl.openConnection();
+
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("DELETE");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setRequestProperty("Authorization", "Bearer pOm5W1CQ2OMKA5Qe");
+            urlConnection.connect();
+
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode > 201) {
+                String message = urlConnection.getResponseMessage();
+                return null;
+            }
+
+            InputStream is = urlConnection.getInputStream();
+            int numberOfChars;
+            StringBuffer sb = new StringBuffer();
+            while ((numberOfChars = is.read()) != -1) {
+                sb.append((char) numberOfChars);
+            }
+
+            return sb.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            dialog.hide();
+            if (result == null) {
+                Toast.makeText(getApplicationContext(), "You are unauthorized to delete this entry!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Producer successfully deleted!", Toast.LENGTH_SHORT).show();
+            }
+            Intent intent = new Intent(AddNewProducerActivity.this, HomeActivity.class);
+            startActivity(intent);
             return;
         }
     }

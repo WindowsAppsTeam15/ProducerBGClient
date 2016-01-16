@@ -157,27 +157,41 @@
 
             <Button
                 android:id="@+id/btn_adress_producer"
-                android:layout_width="150dp"
+                android:layout_width="120dp"
+                android:layout_margin="1dp"
                 android:layout_height="wrap_content"
                 android:text="@string/address"
                 style="@style/lessImportantBtnStyle"/>
 
             <Button
                 android:id="@+id/btn_logo_producer"
-                android:layout_width="150dp"
+                android:layout_width="120dp"
+                android:layout_margin="1dp"
                 android:layout_height="wrap_content"
                 android:text="@string/logo"
                 style="@style/lessImportantBtnStyle"/>
 
         </LinearLayout>
 
-
         <Button
             android:id="@+id/btn_register_producer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register" />
-
+        <Button
+            android:id="@+id/btn_edit_producer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/editBtnText"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btn_delete_producer"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/deleteProducer"
+            style="@style/deleteBtnStyle"
+            android:layout_margin="5dp"/>
     </LinearLayout>
 
 </ScrollView>
