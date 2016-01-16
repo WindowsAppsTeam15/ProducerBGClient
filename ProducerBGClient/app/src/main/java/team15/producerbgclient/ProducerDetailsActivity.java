@@ -41,6 +41,7 @@ public class ProducerDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_producer_details);
 
         Bundle bundle = getIntent().getExtras();

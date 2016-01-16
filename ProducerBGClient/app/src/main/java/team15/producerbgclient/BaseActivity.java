@@ -35,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         MenuItem manageProducersBtn = (MenuItem) menu.findItem(R.id.action_manage);
         MenuItem addProducersBtn = (MenuItem) menu.findItem(R.id.action_add);
+        MenuItem goHomeBtn = (MenuItem) menu.findItem(R.id.action_goHome);
         MenuItem logoutBtn = (MenuItem) menu.findItem(R.id.action_logout);
 
 
@@ -77,6 +78,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(getApplication().getApplicationContext(), AddNewProducerActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        goHomeBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplication().getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 return true;
             }
