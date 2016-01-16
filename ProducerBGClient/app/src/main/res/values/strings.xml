@@ -25,6 +25,8 @@
     <string name="products">Products</string>
     <string name="address">Set address</string>
     <string name="logo">Upload logo</string>
+    <string name="deleteProducer">Delete Producer</string>
+    <string name="editBtnText">Submit Changes</string>
 
     <string-array name="types_array">
         <item>other</item>

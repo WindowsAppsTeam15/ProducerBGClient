@@ -47,7 +47,13 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
             return;
         }
 
-        new GetProducersTask().execute();
+        Bundle bundle = getIntent().getExtras();
+        String query = null;
+        if (bundle != null) {
+            query = bundle.getString("Query");
+        }
+
+        new GetProducersTask().execute(query);
     }
 
     @Override
@@ -58,10 +64,10 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
         startActivity(intent);
     }
 
-    private class GetProducersTask extends AsyncTask<Void, Void, String> {
+    private class GetProducersTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(Void... params) {
-            return getAllProducers();
+        protected String doInBackground(String... params) {
+            return getAllProducers(params[0]);
         }
 
         @Override
@@ -151,13 +157,18 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
             }
         }
 
-        private String getAllProducers() {
+        private String getAllProducers(String query) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String producersStr = null;
 
             try {
-                URL url = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers");
+                URL url = null;
+                if (query == null) {
+                    url = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers");
+                } else {
+                    url = new URL("https://murmuring-mountain-9323.herokuapp.com/api/producers?name=" + query);
+                }
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
