@@ -23,6 +23,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        startService(new Intent(this, UpdateProducersService.class));
+
         Button goToRegisterButton = (Button) findViewById(R.id.btn_go_to_register);
         goToRegisterButton.setOnClickListener(this);
         Button goToAllProducersButton = (Button) findViewById(R.id.btn_all_producers);

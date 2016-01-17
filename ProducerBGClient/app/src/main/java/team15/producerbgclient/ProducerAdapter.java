@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * Created by Marina on 09/01/2016.
  */
-public class ProducerAdapter extends ArrayAdapter<Producer> {
-    public ProducerAdapter(Context context, int resource, List<Producer> producers) {
+public class ProducerAdapter extends ArrayAdapter<ContractProducer> {
+    public ProducerAdapter(Context context, int resource, List<ContractProducer> producers) {
         super(context, resource, producers);
     }
 
@@ -29,7 +29,7 @@ public class ProducerAdapter extends ArrayAdapter<Producer> {
             v = inflater.inflate(R.layout.list_item, null);
         }
 
-        Producer producer = getItem(position);
+        ContractProducer producer = getItem(position);
 
         if (producer != null) {
             ImageView logo = (ImageView) v.findViewById(R.id.iv_producer_logo);

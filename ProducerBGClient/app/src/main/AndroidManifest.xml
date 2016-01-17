@@ -39,6 +39,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCMa0c3pB470A7AcBf52w7UIX37z7WzWjk"/>
 
+        <service android:name=".UpdateProducersService"
+            android:enabled="true"
+            />
+
     </application>
 
 

@@ -4,7 +4,7 @@ package team15.producerbgclient;
  * Created by Marina on 09/01/2016.
  */
 public class Producer {
-    private String id;
+    private String _id;
     private String name;
     private String type;
     private String description;
@@ -44,11 +44,11 @@ public class Producer {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getName() {

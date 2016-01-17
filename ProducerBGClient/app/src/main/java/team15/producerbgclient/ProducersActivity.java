@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProducersActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-    private List<Producer> producers;
+    private List<ContractProducer> producers;
     private ProducerAdapter adapter;
     private ListView listView;
     private LinearLayout linearLayout;
@@ -60,7 +59,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(ProducersActivity.this, ProducerDetailsActivity.class);
-        Producer currentProducer = adapter.getItem(position);
+        ContractProducer currentProducer = adapter.getItem(position);
         intent.putExtra("ProducerId", currentProducer.getId());
         startActivity(intent);
     }
@@ -103,7 +102,7 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                     e.printStackTrace();
                 }
 
-                Producer producer = new Producer();
+                ContractProducer producer = new ContractProducer();
                 JSONArray logo = null;
                 try {
                     logo = producerJson.getJSONArray("logo");
@@ -146,14 +145,14 @@ public class ProducersActivity extends BaseActivity implements AdapterView.OnIte
                     e.printStackTrace();
                 }
                 producer.setType(type);
-
-                String description = null;
-                try {
-                    description = producerJson.getString("description");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                producer.setDescription(description);
+//
+//                String description = null;
+//                try {
+//                    description = producerJson.getString("description");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                producer.setDescription(description);
                 producers.add(producer);
             }
         }
