@@ -12,11 +12,11 @@ public class Producer {
     private String telephone;
     private String[] mainProducts;
     private byte[] logo;
-    private double addressLongitude;
-    private double addressLatitude;
+    private String addressLongitude;
+    private String addressLatitude;
 
     public Producer(String name, String description, String type, String[] products,
-                    String phone, byte[] logo, double longi, double lati) {
+                    String phone, byte[] logo, String longi, String lati) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -109,11 +109,11 @@ public class Producer {
         this.logo = logo;
     }
 
-    public double getAddressLongitude() {
+    public String getAddressLongitude() {
         return this.addressLongitude;
     }
 
-    public double getAddressLatitude() {
+    public String getAddressLatitude() {
         return this.addressLatitude;
     }
 }

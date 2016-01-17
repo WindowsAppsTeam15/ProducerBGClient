@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +43,8 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
     private TextView mainProducts;
     private ImageButton phoneButton;
     private ImageButton emailButton;
+    private Button getDirections;
+    Producer currentProducer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +104,16 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
 
         @Override
         protected void onPostExecute(String producerStr) {
-            Producer producer = ParseJsonDataToProducer(producerStr);
-            if (producer != null) {
+            Gson gson = new Gson();
+
+            try {
+                currentProducer = gson.fromJson(producerStr, Producer.class);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (currentProducer != null) {
                 logo = (ImageView) findViewById(R.id.iv_producer_details_logo);
                 name = (TextView) findViewById(R.id.tv_producer_details_name);
                 type = (TextView) findViewById(R.id.tv_producer_details_type);
@@ -114,31 +127,44 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
                 phoneButton.setOnLongClickListener(ProducerDetailsActivity.this);
 
                 if (logo != null) {
-                    if (producer.getLogo().length != 0) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(producer.getLogo(), 0, producer.getLogo().length);
+                    if (currentProducer.getLogo().length != 0) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(currentProducer.getLogo(), 0, currentProducer.getLogo().length);
                         logo.setImageBitmap(bitmap);
                     } else {
                         logo.setImageResource(R.drawable.no_logo_available);
                     }
                 }
                 if (name != null) {
-                    name.setText(producer.getName());
+                    name.setText(currentProducer.getName());
                 }
                 if (type != null) {
-                    type.setText(producer.getType());
+                    type.setText(currentProducer.getType());
                 }
                 if (description != null) {
-                    description.setText(producer.getDescription());
+                    description.setText(currentProducer.getDescription());
                 }
                 if (email != null) {
-                    email.setText(producer.getEmail());
+                    email.setText(currentProducer.getEmail());
                 }
                 if (phone != null) {
-                    phone.setText(producer.getPhone());
+                    phone.setText(currentProducer.getPhone());
                 }
                 if (mainProducts != null) {
-                    mainProducts.setText(TextUtils.join("\n\n", producer.getProducts()));
+                    mainProducts.setText(TextUtils.join("\n\n", currentProducer.getProducts()));
                 }
+
+                getDirections = (Button) findViewById(R.id.btn_get_directions);
+                getDirections.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String latitude = currentProducer.getAddressLatitude();
+                        String longitude = currentProducer.getAddressLongitude();
+                        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    }
+                });
             }
         }
 
@@ -189,105 +215,105 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
             return producerStr;
         }
 
-        private Producer ParseJsonDataToProducer(String producerStr) {
-
-            JSONObject producerJson = null;
-            try {
-                producerJson = new JSONObject(producerStr);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Producer producer = new Producer();
-
-            JSONArray image = null;
-            try {
-                image = producerJson.getJSONArray("logo");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            byte[] imgByteArr = null;
-            if (image != null) {
-                imgByteArr = new byte[image.length()];
-                for (int i = 0; i < image.length(); i++) {
-                    try {
-                        imgByteArr[i] = (byte) image.getInt(i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                producer.setLogo(imgByteArr);
-            }
-
-            String id = null;
-            try {
-                id = producerJson.getString("_id");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            producer.setId(id);
-
-            String name = null;
-            try {
-                name = producerJson.getString("name");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            producer.setName(name);
-
-            String type = null;
-            try {
-                type = producerJson.getString("type");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            producer.setType(type);
-
-            String description = null;
-            try {
-                description = producerJson.getString("description");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            producer.setDescription(description);
-
-            String email = null;
-            try {
-                email = producerJson.getString("email");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            producer.setEmail(email);
-
-            String phone = null;
-            try {
-                phone = producerJson.getString("telephone");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            producer.setPhone(phone);
-
-            JSONArray mainProducts = null;
-            try {
-                mainProducts = producerJson.getJSONArray("mainProducts");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            List<String> products = new ArrayList<>();
-            for (int i = 0; i < mainProducts.length(); i++) {
-                try {
-                    products.add(mainProducts.getString(i));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            String[] productsArray = products.toArray(new String[products.size()]);
-            producer.setProducts(productsArray);
-
-            return producer;
-        }
+//        private Producer ParseJsonDataToProducer(String producerStr) {
+//
+//            JSONObject producerJson = null;
+//            try {
+//                producerJson = new JSONObject(producerStr);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Producer producer = new Producer();
+//
+//            JSONArray image = null;
+//            try {
+//                image = producerJson.getJSONArray("logo");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            byte[] imgByteArr = null;
+//            if (image != null) {
+//                imgByteArr = new byte[image.length()];
+//                for (int i = 0; i < image.length(); i++) {
+//                    try {
+//                        imgByteArr[i] = (byte) image.getInt(i);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                producer.setLogo(imgByteArr);
+//            }
+//
+//            String id = null;
+//            try {
+//                id = producerJson.getString("_id");
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            producer.setId(id);
+//
+//            String name = null;
+//            try {
+//                name = producerJson.getString("name");
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            producer.setName(name);
+//
+//            String type = null;
+//            try {
+//                type = producerJson.getString("type");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            producer.setType(type);
+//
+//            String description = null;
+//            try {
+//                description = producerJson.getString("description");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            producer.setDescription(description);
+//
+//            String email = null;
+//            try {
+//                email = producerJson.getString("email");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            producer.setEmail(email);
+//
+//            String phone = null;
+//            try {
+//                phone = producerJson.getString("telephone");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            producer.setPhone(phone);
+//
+//            JSONArray mainProducts = null;
+//            try {
+//                mainProducts = producerJson.getJSONArray("mainProducts");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            List<String> products = new ArrayList<>();
+//            for (int i = 0; i < mainProducts.length(); i++) {
+//                try {
+//                    products.add(mainProducts.getString(i));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            String[] productsArray = products.toArray(new String[products.size()]);
+//            producer.setProducts(productsArray);
+//
+//            return producer;
+//        }
     }
 }

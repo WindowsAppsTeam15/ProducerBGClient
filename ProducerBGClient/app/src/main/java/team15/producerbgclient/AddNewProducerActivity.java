@@ -245,13 +245,15 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         String productsString = mainProductsInput.getText().toString().trim();
         String[] productsArray = productsString.split(" ");
         String telephone = telephoneInput.getText().toString().trim();
+        String lati = String.valueOf(addressLatitude);
+        String longi = String.valueOf(addressLongitude);
 
         Producer producer;
-        if (addressLongitude == 0.0) {
-            producer = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo);
-        } else {
-            producer = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo, addressLongitude, addressLatitude);
-        }
+//        if (addressLongitude == 0.0) {
+//            producer = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo);
+//        } else {
+            producer = new Producer(nameString, descriptionString, typeString, productsArray, telephone, logo, longi, lati);
+//        }
 
         Gson gsonProducer = new Gson();
         String jsonStringProducer = gsonProducer.toJson(producer);
@@ -410,8 +412,8 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
 
                 telephoneInput.setText(returnedProducer.getPhone());
 
-                addressLatitude = returnedProducer.getAddressLatitude();
-                addressLongitude = returnedProducer.getAddressLongitude();
+                addressLatitude = Double.parseDouble(returnedProducer.getAddressLatitude());
+                addressLongitude = Double.parseDouble(returnedProducer.getAddressLongitude());
 
                 deleteBtn.setVisibility(View.VISIBLE);
                 editBtn.setVisibility(View.VISIBLE);
