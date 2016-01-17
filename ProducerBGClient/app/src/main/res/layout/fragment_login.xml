@@ -89,11 +89,9 @@
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/logo"
-                />
+                android:src="@drawable/logo" />
         </LinearLayout>
 
     </LinearLayout>
-
 
 </ScrollView>

@@ -5,6 +5,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="welcome_heading">Welcome to ProducerBG!</string>
+    <string name="welcome_description">Here you will be able to view the details about hundreds of producers.</string>
+
     <string name="all_producers">See all producers</string>
     <string name="register">Register</string>
     <string name="login_form_title">Hello back!</string>
@@ -15,6 +18,7 @@
     <string name="confirm_password">Confirm pass</string>
     <string name="confirm_password_placeholder">Confirm Password</string>
     <string name="login">Log In</string>
+
     <string name="description">Description:</string>
     <string name="type">Type:</string>
     <string name="main_products">Main products:</string>

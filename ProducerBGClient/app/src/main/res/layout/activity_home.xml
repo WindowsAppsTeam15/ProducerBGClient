@@ -7,9 +7,6 @@
     android:orientation="vertical"
     tools:context="team15.producerbgclient.HomeActivity">
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +20,7 @@
             android:id="@+id/tv_welcome_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome to ProducerBG!"
+            android:text="@string/welcome_heading"
             android:textSize="30dp" />
 
         <TextView
@@ -31,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Here you'll be able to view the details about hundreds of producers."
+            android:text="@string/description"
             android:textSize="16dp" />
 
         <TextView
@@ -55,10 +52,8 @@
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/logo"
-                />
+                android:src="@drawable/logo" />
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -88,8 +83,5 @@
             android:minWidth="170dp"
             android:text="@string/register" />
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

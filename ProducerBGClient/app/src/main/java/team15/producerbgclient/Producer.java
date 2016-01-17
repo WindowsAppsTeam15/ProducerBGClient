@@ -1,8 +1,5 @@
 package team15.producerbgclient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Marina on 09/01/2016.
  */
