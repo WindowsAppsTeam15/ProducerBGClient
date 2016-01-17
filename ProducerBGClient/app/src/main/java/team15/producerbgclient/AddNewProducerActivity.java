@@ -1,8 +1,13 @@
 package team15.producerbgclient;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,8 +19,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -50,6 +57,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class AddNewProducerActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
+    private  Context context;
     TextView title;
 
     EditText producerNameInput;
@@ -90,6 +98,8 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_producer);
+
+        context = this;
 
         producerTypeInput = (Spinner) findViewById(R.id.sp_producer_type_input);
         adapter = ArrayAdapter.createFromResource(this, R.array.types_array, android.R.layout.simple_spinner_item);
@@ -193,6 +203,8 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             }
         }
     }
+
+
 
     private void deleteProducer() {
         Boolean availableConnection = checkConnection();
@@ -579,6 +591,22 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             return sb.toString();
         }
 
+        private void sendNotification(String title, String text, int icon) {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+            mBuilder.setContentTitle(title);
+            mBuilder.setContentText(text);
+            mBuilder.setSmallIcon(icon);
+
+            Intent intent = new Intent(context, ProducersActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pendingIntent);
+
+            Notification notification = mBuilder.build();
+
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(1, notification);
+        }
+
         @Override
         protected void onPostExecute(String result) {
             dialog.hide();
@@ -594,7 +622,9 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
             }
 
             String producerName = returnedProducer.getName();
-            Toast.makeText(getApplicationContext(), producerName + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
+            // TODO: Notification icon -> producer logo ?
+            sendNotification("Successfully added new producer!", producerName, R.drawable.logo);
+            //Toast.makeText(getApplicationContext(), producerName + " sucsessfully registered!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(AddNewProducerActivity.this, HomeActivity.class);
             startActivity(intent);
