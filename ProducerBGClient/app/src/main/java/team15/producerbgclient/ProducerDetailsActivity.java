@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -33,7 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProducerDetailsActivity extends BaseActivity implements View.OnLongClickListener {
+public class ProducerDetailsActivity extends BaseActivity implements View.OnLongClickListener, View.OnClickListener {
     private ImageView logo;
     private TextView name;
     private TextView type;
@@ -43,8 +44,11 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
     private TextView mainProducts;
     private ImageButton phoneButton;
     private ImageButton emailButton;
+    private ImageButton editButton;
+    private ImageButton deleteButton;
     private Button getDirections;
     Producer currentProducer;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,12 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
         setContentView(R.layout.activity_producer_details);
 
         Bundle bundle = getIntent().getExtras();
-        String id = bundle.getString("ProducerId");
+        id = bundle.getString("ProducerId");
+
+        editButton = (ImageButton) findViewById(R.id.ib_edit_producer);
+        editButton.setOnClickListener(this);
+        deleteButton = (ImageButton) findViewById(R.id.ib_delete_producer);
+        deleteButton.setOnClickListener(this);
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -92,6 +101,27 @@ public class ProducerDetailsActivity extends BaseActivity implements View.OnLong
         }
 
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int viewId = v.getId();
+
+        switch (viewId) {
+            case R.id.ib_edit_producer: {
+                Intent intent = new Intent(ProducerDetailsActivity.this, AddNewProducerActivity.class);
+                intent.putExtra("ProducerId", id);
+                startActivity(intent);
+                break;
+            }
+            case R.id.ib_delete_producer: {
+                // TODO: Fix
+                Intent intent = new Intent(ProducerDetailsActivity.this, AddNewProducerActivity.class);
+                intent.putExtra("ProducerId", id);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     private class GetProducerDetailsTask extends AsyncTask<String, Void, String> {

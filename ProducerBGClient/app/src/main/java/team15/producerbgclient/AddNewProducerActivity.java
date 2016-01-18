@@ -204,8 +204,6 @@ public class AddNewProducerActivity extends BaseActivity implements View.OnClick
         }
     }
 
-
-
     private void deleteProducer() {
         Boolean availableConnection = checkConnection();
         if (!availableConnection) {

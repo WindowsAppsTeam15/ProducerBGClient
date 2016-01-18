@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="team15.producerbgclient"
-    >
+    package="team15.producerbgclient">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- <meta-data -->
+    <!-- android:name="com.google.android.gms.version" -->
+    <!-- android:value="@integer/google_play_services_version" /> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,33 +26,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProducerDetailsActivity"></activity>
-        <!--<activity android:name=".SearchableActivity" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.SEARCH" />-->
-            <!--</intent-filter>-->
-            <!--<meta-data android:name="android.app.searchable"-->
-                <!--android:resource="@xml/search"/>-->
-        <!--</activity>-->
+        <activity android:name=".ProducerDetailsActivity" />
+        <!-- <activity android:name=".SearchableActivity" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.SEARCH" /> -->
+        <!-- </intent-filter> -->
+        <!-- <meta-data android:name="android.app.searchable" -->
+        <!-- android:resource="@xml/search"/> -->
+        <!-- </activity> -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCMa0c3pB470A7AcBf52w7UIX37z7WzWjk"/>
+            android:value="AIzaSyCMa0c3pB470A7AcBf52w7UIX37z7WzWjk" />
 
-        <service android:name=".UpdateProducersService"
-            android:enabled="true"
-            />
+        <service
+            android:name=".UpdateProducersService"
+            android:enabled="true" />
 
     </application>
-
-
-
-    <!--<meta-data-->
-        <!--android:name="com.google.android.gms.version"-->
-        <!--android:value="@integer/google_play_services_version" />-->
-
-
 
 </manifest>
